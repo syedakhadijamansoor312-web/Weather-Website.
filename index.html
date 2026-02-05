@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather forcasting</title>
+    <style>
+
+        .heading{
+            color:white;
+            background-color:darkblue;
+            font-size: xx-large;
+            font-family:'Times New Roman', Times, serif;
+            font-style: italic;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-bottom: 20px;
+            padding-top: 20px;
+            border-radius: 10px;
+            margin-top: 0px;
+            border-style:double;
+        }
+        .para{
+            color:midnightblue;
+            font-size : larger;
+            margin-bottom: 10px;
+        }
+        .btn{
+         background-color:aliceblue;
+         color:black;
+         border-radius: 5px;
+         font-family: Georgia, 'Times New Roman', Times, serif;
+         font-size: medium;
+        }
+         .btn:hover{
+           background-color:cornflowerblue;
+           scale: 1.05;
+         }
+        
+        body{
+             background-color:#cfe4f9;
+        }
+        input[type="text"]{
+            color:black;
+            background-color:aliceblue;
+            border-radius: 5px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size:medium;
+        }
+        input[type="text"]:hover{
+            background-color:lightskyblue;
+        }
+        .weather-img{
+            display:block;
+            margin-left:300px ;
+            margin-top:20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-style: groove ;
+        }
+        .weather-1{
+            display:block;
+            margin-top: 20px;
+        }
+        .image-row{
+            text-align:center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .center-img{
+            display:inline-block;
+            margin:0;
+            vertical-align: middle;
+            border-radius: 10px;
+            border-style: groove;
+        }
+        .footer{
+            padding-left: 400px;
+            padding-bottom: 20px;
+            padding-top: 20px;
+            color:navy;
+            background-color:rgb(150, 211, 249);
+            font-size:large;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            border-radius: 10px;
+            border-style:ridge;
+        }
+    </style>
+</head>
+<body>
+    <h1 class = "heading" align=center><b><i>Weather Website</i></b></h1>
+    <ul>
+<p class="para">
+<li>Get real-time weather updates for any city.</li>
+<li>Stay informed with accurate weather forecasts.</li>
+<li>This website will display the relevent detail about weather for entered city.</li>
+<li>Enter your city name to check the latest weather information,including temperature.</li>
+</p>
+  </ul>   
+  <div class ="image-row">
+  <img src="weather .jpg",height="300" width="500", alt="Photo" class="center-img">
+  <img src="weather..jpg",height="300" width="500"alt="Photo"class="center-img">
+  </div>
+  
+
+ <form onsubmit = "checkWeather(); return false;">
+        <label for ="city name"></label>
+        <input type ="text" placeholder = "Enter city name" name ="city Name" id ="cityName"/>
+        <button class="btn" type = "Submit">Check Weather</button>
+        
+    </form>
+      <div id ="weather"></div>
+      <img src="w.jpg" width="600"height ="320"alt="Photo"class="weather-img">
+      <footer class="footer">Thank you for visiting!Stay updated with the latest weather.</footer>
+    
+<script>
+         const weatherRes = new Promise((resolve, reject) =>{
+            if(80>100){
+                resolve({weather:"its sunny day"});
+            }
+            else{
+                reject({message :"Something went wrong"});
+            }   
+         })
+            weatherRes.then((data)=>{
+            console.log(data);
+         }).catch((error)=>{
+            console.log(error);
+         })
+         console.log(weatherRes);
+        function checkWeather(){
+            const cityRef = document.querySelector("#cityName");
+            const cityValue=cityRef.value;
+            const weatherRef = document.querySelector("#weather");
+            // Api calling 
+         const cityWeather = fetch(`https://p2pclouds.up.railway.app/v1/learn/weather?city=${cityValue}`);
+         cityWeather.then((data)=>{
+            return data.json();
+         }).then((data) =>{
+           weatherRef.innerHTML=`${cityValue}: Its temperature feels like is ${data['current']['feelslike_c']}&deg;C`
+         }).catch((error) =>{
+            console.log("Something went Wrong")
+         })
+        }
+    </script>
+</body>
+</html>
